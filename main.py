@@ -253,11 +253,11 @@ LAYOUT = dict(
     plot_bgcolor=BG, paper_bgcolor=BG,
     font=dict(family="JetBrains Mono, monospace", color="rgba(255,255,255,0.45)", size=11),
     margin=dict(t=30, b=10, l=10, r=10),
-    xaxis=dict(showgrid=False, zeroline=False, tickcolor="transparent",
-               linecolor=GRID, tickfont=dict(color="rgba(255,255,255,0.5)", size=11)),
-    yaxis=dict(showgrid=True, gridcolor=GRID, zeroline=False,
-               tickfont=dict(color="rgba(255,255,255,0.35)", size=10)),
 )
+XA = dict(showgrid=False, zeroline=False, tickcolor="transparent",
+          linecolor=GRID, tickfont=dict(color="rgba(255,255,255,0.5)", size=11))
+YA = dict(showgrid=True, gridcolor=GRID, zeroline=False,
+          tickfont=dict(color="rgba(255,255,255,0.35)", size=10))
 
 # ── HERO ────────────────────────────────────────────────────────────
 st.markdown("""
@@ -308,11 +308,9 @@ with col1:
         ))
     fig.update_layout(
         **LAYOUT, height=340,
-        yaxis=dict(showgrid=True, gridcolor=GRID, zeroline=False,
-                   range=[0, max(scores.values()) + 5],
-                   tickfont=dict(color="rgba(255,255,255,0.3)")),
-        xaxis=dict(showgrid=False, zeroline=False,
-                   tickfont=dict(color="#fff", size=14, family="Bebas Neue")),
+        xaxis={**XA, "tickfont": dict(color="#fff", size=14, family="Bebas Neue")},
+        yaxis={**YA, "range": [0, max(scores.values()) + 5],
+               "tickfont": dict(color="rgba(255,255,255,0.3)")},
         bargap=0.35,
     )
     # subtle glow via shape
@@ -384,9 +382,8 @@ with col3:
         )
     fig3.update_layout(
         **LAYOUT, height=340,
+        xaxis={**XA, "tickfont": dict(color="#fff", size=13, family="Bebas Neue")},
         yaxis=dict(visible=False, range=[0, 145]),
-        xaxis=dict(showgrid=False, zeroline=False,
-                   tickfont=dict(color="#fff", size=13, family="Bebas Neue")),
         bargap=0.25,
     )
     st.plotly_chart(fig3, use_container_width=True, config={"displayModeBar": False})
@@ -415,10 +412,8 @@ with col4:
             font=dict(color="rgba(255,255,255,0.6)", size=11),
             bgcolor="transparent",
         ),
-        xaxis=dict(showgrid=False, zeroline=False,
-                   tickfont=dict(color="#fff", size=13, family="Bebas Neue")),
-        yaxis=dict(showgrid=True, gridcolor=GRID, zeroline=False,
-                   ticksuffix="회", tickfont=dict(color="rgba(255,255,255,0.3)")),
+        xaxis={**XA, "tickfont": dict(color="#fff", size=13, family="Bebas Neue")},
+        yaxis={**YA, "ticksuffix": "회", "tickfont": dict(color="rgba(255,255,255,0.3)")},
         bargap=0.35,
     )
     st.plotly_chart(fig4, use_container_width=True, config={"displayModeBar": False})
