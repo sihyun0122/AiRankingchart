@@ -1,6 +1,5 @@
 import streamlit as st
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
 import pandas as pd
 
 st.set_page_config(
@@ -28,7 +27,6 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
 [data-testid="stHeader"] { background: transparent !important; }
 .block-container { padding: 0 2rem 4rem !important; max-width: 1200px !important; }
 
-/* ── HERO ── */
 .hero {
     position: relative;
     padding: 5rem 0 3.5rem;
@@ -74,8 +72,6 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
     color: rgba(255,255,255,0.3);
     letter-spacing: 0.08em;
 }
-
-/* ── DIVIDER ── */
 .slash-divider {
     display: flex; align-items: center; gap: 1rem;
     margin: 0.5rem 0 2rem;
@@ -91,8 +87,6 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
     letter-spacing: 0.2em;
     color: rgba(139,92,246,0.7);
 }
-
-/* ── SCORE CARDS ── */
 .score-row { display: flex; gap: 1rem; margin-bottom: 2.5rem; }
 .score-card {
     flex: 1;
@@ -103,7 +97,6 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
     border: 1px solid rgba(255,255,255,0.06);
     background: rgba(255,255,255,0.03);
     backdrop-filter: blur(20px);
-    transition: transform 0.2s;
 }
 .score-card::before {
     content: '';
@@ -113,7 +106,6 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
 .score-card.claude::before  { background: linear-gradient(90deg, #8b5cf6, #c4b5fd); }
 .score-card.gemini::before  { background: linear-gradient(90deg, #06b6d4, #67e8f9); }
 .score-card.chatgpt::before { background: linear-gradient(90deg, #10b981, #6ee7b7); }
-
 .score-card .rank-tag {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.65rem;
@@ -125,7 +117,6 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
 .score-card.claude  .rank-tag { color: #c4b5fd; }
 .score-card.gemini  .rank-tag { color: #67e8f9; }
 .score-card.chatgpt .rank-tag { color: #6ee7b7; }
-
 .score-card .ai-name {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 2rem;
@@ -141,7 +132,6 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
 .score-card.claude  .ai-score { color: #a78bfa; }
 .score-card.gemini  .ai-score { color: #22d3ee; }
 .score-card.chatgpt .ai-score { color: #34d399; }
-
 .score-card .ai-score-label {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.7rem;
@@ -157,8 +147,6 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
     color: #fff;
     line-height: 1;
 }
-
-/* ── SECTION LABEL ── */
 .sec-label {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.68rem;
@@ -174,8 +162,6 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
     color: #fff;
     margin-bottom: 1.5rem;
 }
-
-/* ── TABLE ── */
 .raw-table-wrap { margin-top: 1rem; }
 .raw-table {
     width: 100%;
@@ -196,7 +182,6 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
     color: rgba(255,255,255,0.7);
     border-bottom: 1px solid rgba(255,255,255,0.04);
 }
-.raw-table tr:hover td { background: rgba(255,255,255,0.03); }
 .badge {
     display: inline-block;
     padding: 0.15rem 0.5rem;
@@ -207,7 +192,6 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
 .badge-1 { background: rgba(139,92,246,0.2); color: #c4b5fd; }
 .badge-2 { background: rgba(6,182,212,0.2);  color: #67e8f9; }
 .badge-3 { background: rgba(16,185,129,0.18); color: #6ee7b7; }
-
 [data-testid="stExpander"] {
     border: 1px solid rgba(255,255,255,0.06) !important;
     border-radius: 2px !important;
@@ -216,7 +200,7 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
 </style>
 """, unsafe_allow_html=True)
 
-# ── DATA ────────────────────────────────────────────────────────────
+# ── DATA ─────────────────────────────────────────────────────────────
 raw = [
     ("변시현 · 당곡고",   [1, 2, 3]),
     ("신연서 · 수도여고", [1, 3, 2]),
@@ -230,11 +214,10 @@ raw = [
     ("김준영 · 20105",   [1, 2, 3]),
 ]
 
-AI       = ["Claude", "Gemini", "ChatGPT"]
-C        = {"Claude": "#a78bfa", "Gemini": "#22d3ee", "ChatGPT": "#34d399"}
-BG       = "#060608"
-BG2      = "rgba(255,255,255,0.03)"
-GRID     = "rgba(255,255,255,0.05)"
+AI    = ["Claude", "Gemini", "ChatGPT"]
+C     = {"Claude": "#a78bfa", "Gemini": "#22d3ee", "ChatGPT": "#34d399"}
+BG    = "#060608"
+GRID  = "rgba(255,255,255,0.06)"
 
 scores      = {a: 0 for a in AI}
 rank_counts = {a: {1: 0, 2: 0, 3: 0} for a in AI}
@@ -243,23 +226,11 @@ for _, ranks in raw:
         scores[a] += (4 - r)
         rank_counts[a][r] += 1
 
-ordered = sorted(AI, key=lambda x: scores[x], reverse=True)
+ordered     = sorted(AI, key=lambda x: scores[x], reverse=True)
 rank_labels = {ordered[0]: "01 — GOLD", ordered[1]: "02 — SILVER", ordered[2]: "03 — BRONZE"}
-css_class   = {ordered[0]: "claude", ordered[1]: "gemini", ordered[2]: "chatgpt"}
-# remap css class by actual AI name
-ai_css = {"Claude": "claude", "Gemini": "gemini", "ChatGPT": "chatgpt"}
+ai_css      = {"Claude": "claude", "Gemini": "gemini", "ChatGPT": "chatgpt"}
 
-LAYOUT = dict(
-    plot_bgcolor=BG, paper_bgcolor=BG,
-    font=dict(family="JetBrains Mono, monospace", color="rgba(255,255,255,0.45)", size=11),
-    margin=dict(t=30, b=10, l=10, r=10),
-)
-XA = dict(showgrid=False, zeroline=False, tickcolor="transparent",
-          linecolor=GRID, tickfont=dict(color="rgba(255,255,255,0.5)", size=11))
-YA = dict(showgrid=True, gridcolor=GRID, zeroline=False,
-          tickfont=dict(color="rgba(255,255,255,0.35)", size=10))
-
-# ── HERO ────────────────────────────────────────────────────────────
+# ── HERO ─────────────────────────────────────────────────────────────
 st.markdown("""
 <div class="hero">
   <div class="hero-eyebrow">⚡ Student Vote · 10 Participants</div>
@@ -268,11 +239,11 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ── SCORE CARDS ─────────────────────────────────────────────────────
+# ── SCORE CARDS ──────────────────────────────────────────────────────
 cards_html = '<div class="score-row">'
 for i, a in enumerate(ordered):
     cls   = ai_css[a]
-    medal = ["🥇","🥈","🥉"][i]
+    medal = ["🥇", "🥈", "🥉"][i]
     cards_html += f"""
     <div class="score-card {cls}">
       <div class="rank-tag">{medal} &nbsp;{rank_labels[a]}</div>
@@ -286,41 +257,64 @@ st.markdown(cards_html, unsafe_allow_html=True)
 
 st.markdown('<div class="slash-divider"><span>CHARTS</span></div>', unsafe_allow_html=True)
 
-# ── ROW 1: BAR + DONUT ──────────────────────────────────────────────
+# ── CHART HELPERS ────────────────────────────────────────────────────
+def axis_x(size=13):
+    return dict(
+        showgrid=False,
+        zeroline=False,
+        linecolor="rgba(255,255,255,0.08)",
+        tickfont=dict(color="#ffffff", size=size, family="Bebas Neue"),
+    )
+
+def axis_y(suffix="", visible=True, y_max=None):
+    d = dict(
+        showgrid=visible,
+        gridcolor=GRID,
+        zeroline=False,
+        visible=visible,
+        tickfont=dict(color="rgba(255,255,255,0.3)", size=10),
+    )
+    if suffix:
+        d["ticksuffix"] = suffix
+    if y_max is not None:
+        d["range"] = [0, y_max]
+    return d
+
+def common(height=340):
+    return dict(
+        plot_bgcolor=BG,
+        paper_bgcolor=BG,
+        height=height,
+        font=dict(family="JetBrains Mono, monospace", color="rgba(255,255,255,0.4)", size=11),
+        margin=dict(t=35, b=15, l=15, r=15),
+    )
+
+# ── ROW 1: BAR + DONUT ───────────────────────────────────────────────
 col1, col2 = st.columns([3, 2], gap="medium")
 
 with col1:
     st.markdown('<div class="sec-label">// 01</div><div class="sec-title">Total Score</div>', unsafe_allow_html=True)
-    fig = go.Figure()
+    fig1 = go.Figure()
     for a in ordered:
-        fig.add_trace(go.Bar(
+        fig1.add_trace(go.Bar(
             x=[a], y=[scores[a]],
-            marker=dict(
-                color=C[a],
-                opacity=0.85,
-                line=dict(width=0),
-            ),
-            width=0.55,
+            marker=dict(color=C[a], opacity=0.9, line=dict(width=0)),
+            width=0.52,
             text=[str(scores[a])],
             textposition="outside",
-            textfont=dict(size=18, color=C[a], family="Bebas Neue"),
+            textfont=dict(size=20, color=C[a], family="Bebas Neue"),
             showlegend=False,
         ))
-    fig.update_layout(
-        **LAYOUT, height=340,
-        xaxis={**XA, "tickfont": dict(color="#fff", size=14, family="Bebas Neue")},
-        yaxis={**YA, "range": [0, max(scores.values()) + 5],
-               "tickfont": dict(color="rgba(255,255,255,0.3)")},
+    fig1.update_layout(
+        plot_bgcolor=BG, paper_bgcolor=BG, height=340,
+        font=dict(family="JetBrains Mono, monospace", color="rgba(255,255,255,0.4)", size=11),
+        margin=dict(t=35, b=15, l=15, r=15),
+        showlegend=False,
         bargap=0.35,
+        xaxis=axis_x(),
+        yaxis=axis_y(y_max=max(scores.values()) + 5),
     )
-    # subtle glow via shape
-    for a in ordered:
-        fig.add_shape(type="rect",
-            x0=ordered.index(a)-0.3, x1=ordered.index(a)+0.3,
-            y0=0, y1=scores[a],
-            fillcolor=C[a], opacity=0.06, line_width=0,
-        )
-    st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+    st.plotly_chart(fig1, use_container_width=True, config={"displayModeBar": False})
 
 with col2:
     st.markdown('<div class="sec-label">// 02</div><div class="sec-title">Share</div>', unsafe_allow_html=True)
@@ -328,10 +322,7 @@ with col2:
         labels=AI,
         values=[scores[a] for a in AI],
         hole=0.65,
-        marker=dict(
-            colors=[C[a] for a in AI],
-            line=dict(color=BG, width=4),
-        ),
+        marker=dict(colors=[C[a] for a in AI], line=dict(color=BG, width=4)),
         textinfo="label+percent",
         textfont=dict(size=11, family="JetBrains Mono"),
         insidetextorientation="radial",
@@ -339,17 +330,19 @@ with col2:
         rotation=90,
     ))
     fig2.update_layout(
-        **LAYOUT, height=340,
+        plot_bgcolor=BG, paper_bgcolor=BG, height=340,
+        font=dict(family="JetBrains Mono, monospace", color="rgba(255,255,255,0.4)", size=11),
+        margin=dict(t=35, b=15, l=15, r=15),
         showlegend=False,
         annotations=[dict(
-            text=f'<b style="font-size:20px">{ordered[0]}</b><br><span style="font-size:11px; color:rgba(255,255,255,0.4)">WINNER</span>',
+            text=f"{ordered[0]}<br>WINNER",
             x=0.5, y=0.5, showarrow=False,
-            font=dict(color="#fff", family="Bebas Neue", size=14),
+            font=dict(color="#ffffff", family="Bebas Neue", size=15),
         )],
     )
     st.plotly_chart(fig2, use_container_width=True, config={"displayModeBar": False})
 
-# ── ROW 2: PODIUM + STACKED ─────────────────────────────────────────
+# ── ROW 2: PODIUM + STACKED ──────────────────────────────────────────
 col3, col4 = st.columns([2, 3], gap="medium")
 
 with col3:
@@ -359,38 +352,38 @@ with col3:
     pod_medals  = ["🥈", "🥇", "🥉"]
 
     fig3 = go.Figure()
+    pod_annotations = []
     for ai, h, m in zip(pod_order, pod_heights, pod_medals):
         fig3.add_trace(go.Bar(
             x=[ai], y=[h],
-            marker=dict(
-                color=C[ai], opacity=0.9,
-                line=dict(width=0),
-                pattern=dict(shape="", bgcolor=C[ai]),
-            ),
+            marker=dict(color=C[ai], opacity=0.9, line=dict(width=0)),
             width=0.6,
-            text=[f"{m}"],
+            text=[m],
             textposition="outside",
-            textfont=dict(size=22),
+            textfont=dict(size=24),
             showlegend=False,
         ))
-        # score annotation inside bar
-        fig3.add_annotation(
+        pod_annotations.append(dict(
             x=ai, y=h / 2,
             text=f"<b>{scores[ai]}</b>",
             showarrow=False,
-            font=dict(size=20, color=BG, family="Bebas Neue"),
-        )
+            font=dict(size=22, color=BG, family="Bebas Neue"),
+        ))
     fig3.update_layout(
-        **LAYOUT, height=340,
-        xaxis={**XA, "tickfont": dict(color="#fff", size=13, family="Bebas Neue")},
-        yaxis=dict(visible=False, range=[0, 145]),
+        plot_bgcolor=BG, paper_bgcolor=BG, height=340,
+        font=dict(family="JetBrains Mono, monospace", color="rgba(255,255,255,0.4)", size=11),
+        margin=dict(t=35, b=15, l=15, r=15),
+        showlegend=False,
         bargap=0.25,
+        xaxis=axis_x(),
+        yaxis=axis_y(visible=False, y_max=145),
+        annotations=pod_annotations,
     )
     st.plotly_chart(fig3, use_container_width=True, config={"displayModeBar": False})
 
 with col4:
     st.markdown('<div class="sec-label">// 04</div><div class="sec-title">Rank Distribution</div>', unsafe_allow_html=True)
-    rank_color = {1: "#fbbf24", 2: "#94a3b8", 3: "#92400e"}
+    rank_color = {1: "#fbbf24", 2: "#94a3b8", 3: "#78350f"}
     rank_names = {1: "🥇 1st", 2: "🥈 2nd", 3: "🥉 3rd"}
 
     fig4 = go.Figure()
@@ -399,26 +392,29 @@ with col4:
             name=rank_names[r],
             x=AI,
             y=[rank_counts[a][r] for a in AI],
-            marker=dict(color=rank_color[r], opacity=0.85, line=dict(width=0)),
-            text=[f"{rank_counts[a][r]}" for a in AI],
+            marker=dict(color=rank_color[r], opacity=0.88, line=dict(width=0)),
+            text=[str(rank_counts[a][r]) for a in AI],
             textposition="inside",
-            textfont=dict(size=14, color="#000", family="Bebas Neue"),
+            textfont=dict(size=15, color="#111111", family="Bebas Neue"),
         ))
     fig4.update_layout(
-        **LAYOUT,
-        barmode="stack", height=340,
+        plot_bgcolor=BG, paper_bgcolor=BG, height=340,
+        font=dict(family="JetBrains Mono, monospace", color="rgba(255,255,255,0.4)", size=11),
+        margin=dict(t=35, b=15, l=15, r=15),
+        barmode="stack",
+        bargap=0.35,
+        showlegend=True,
         legend=dict(
             orientation="h", x=0.5, xanchor="center", y=1.08,
-            font=dict(color="rgba(255,255,255,0.6)", size=11),
-            bgcolor="transparent",
+            font=dict(color="rgba(255,255,255,0.55)", size=11),
+            bgcolor="rgba(0,0,0,0)",
         ),
-        xaxis={**XA, "tickfont": dict(color="#fff", size=13, family="Bebas Neue")},
-        yaxis={**YA, "ticksuffix": "회", "tickfont": dict(color="rgba(255,255,255,0.3)")},
-        bargap=0.35,
+        xaxis=axis_x(),
+        yaxis=axis_y(suffix="회"),
     )
     st.plotly_chart(fig4, use_container_width=True, config={"displayModeBar": False})
 
-# ── RAW DATA ────────────────────────────────────────────────────────
+# ── RAW DATA ─────────────────────────────────────────────────────────
 st.markdown('<div class="slash-divider"><span>RAW DATA</span></div>', unsafe_allow_html=True)
 with st.expander("📋 원시 투표 데이터"):
     badge = {1: "badge-1", 2: "badge-2", 3: "badge-3"}
@@ -429,7 +425,7 @@ with st.expander("📋 원시 투표 데이터"):
         <th>NAME</th><th>CLAUDE</th><th>GEMINI</th><th>CHATGPT</th>
       </tr></thead><tbody>"""
     for name, ranks in raw:
-        r = [f'<span class="badge {badge[x]}">{x}등</span>' for x in ranks]
-        rows_html += f"<tr><td>{name}</td><td>{r[0]}</td><td>{r[1]}</td><td>{r[2]}</td></tr>"
+        b = [f'<span class="badge {badge[x]}">{x}등</span>' for x in ranks]
+        rows_html += f"<tr><td>{name}</td><td>{b[0]}</td><td>{b[1]}</td><td>{b[2]}</td></tr>"
     rows_html += "</tbody></table></div>"
     st.markdown(rows_html, unsafe_allow_html=True)
