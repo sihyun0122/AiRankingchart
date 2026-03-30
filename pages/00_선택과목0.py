@@ -26,7 +26,7 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
 }
 [data-testid="stHeader"] { background: transparent !important; }
 .block-container { padding: 0 2.5rem 5rem !important; max-width: 1280px !important; }
-section[data-testid="stSidebar"] { display: none; }
+
 
 /* ── HERO ── */
 .hero {
